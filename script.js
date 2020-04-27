@@ -96,46 +96,64 @@ button.onclick = function () {
     xhrRequest.send()
 }
 
-// you can make a call to changeboard(board) function to update the state on the screen
+//to be completed by student
+function isPossible(board, sr, sc, val) {
+    for (var row = 0; row < 9; row++) {
+        if (board[row][sc] == val) {
+            return false;
+        }
+    }
 
-function isSafe(){
-    
+    for (var col = 0; col < 9; col++) {
+        if (board[sr][col] == val) {
+            return false;
+        }
+    }
+
+    var r = sr - sr % 3;
+    var c = sc - sc % 3;
+
+    for (var cr = r; cr < r + 3; cr++) {
+        for (var cc = c; cc < c + 3; cc++) {
+            if (board[cr][cc] == val) {
+                return false;
+            }
+        }
+    }
+    return true;
+
 }
 
-
-function solveSudokuHelper(board,r,c){
-
-    //base case 
-    if(r==9){
+//to be completed by student
+function solveSudokuHelper(board, sr, sc) {
+    if (sr == 9) {
         changeBoard(board);
-        return true;
+        return;
     }
-    //other cases - write your code here
-    if(c==9){
-        return solveSudokuHelper(board, r+1, 0);
-    }
-    if(board[r][r]!=0){
-        return solveSudokuHelper(board, r, c+1);
+    if (sc == 9) {
+        solveSudokuHelper(board, sr + 1, 0)
+        return;
     }
 
-    // there is 0 in the current location
+    if (board[sr][sc] != 0) {
+        solveSudokuHelper(board, sr, sc + 1);
+        return;
+    }
 
-
-
-
-
-
-
-
-   //finish your code here
-
+    for (var i = 1; i <= 9; i++) {
+        if (isPossible(board, sr, sc, i)) {
+            board[sr][sc] = i;
+            solveSudokuHelper(board, sr, sc + 1);
+            board[sr][sc] = 0;
+        }
+    }
 }
 
 function solveSudoku(board) {
-    solveSudokuHelper(board,0,0);
+    solveSudokuHelper(board, 0, 0)
 }
-
 
 solve.onclick = function () {
     solveSudoku(board)
+
 }
