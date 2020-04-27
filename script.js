@@ -97,6 +97,12 @@ button.onclick = function () {
 }
 
 // you can make a call to changeboard(board) function to update the state on the screen
+
+function isSafe(){
+    
+}
+
+
 function solveSudokuHelper(board,r,c){
 
     //base case 
@@ -105,9 +111,15 @@ function solveSudokuHelper(board,r,c){
         return true;
     }
     //other cases - write your code here
+    if(c==9){
+        return solveSudokuHelper(board, r+1, 0);
+    }
+    if(board[r][r]!=0){
+        return solveSudokuHelper(board, r, c+1);
+    }
 
+    // there is 0 in the current location
 
-   
 
 
 
